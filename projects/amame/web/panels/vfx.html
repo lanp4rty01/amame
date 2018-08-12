@@ -1,0 +1,74 @@
+<!--
+  vfx.html
+  jariseon 2018-08-11
+  HTML panel for ensoniq VFX and VFX-SD
+-->
+
+<div id="vfx">
+  <div id="upperPanel">
+    <div id="sliderPanel"></div>
+    <div id="displayPanel">
+      <div id="display"></div>
+      <div id="presetButtons">
+        <div id="memoryButtons"></div>
+        <div id="bankButtons"></div>
+      </div>
+    </div>
+  </div>
+  <div id="lowerPanel">
+    <div id="dataPanel"></div>
+    <div id="performancePanel"></div>
+    <div id="systemPanel"></div>
+    <div id="editPanel"></div>
+  </div>
+</div>
+
+<style>
+  #vfx { background:#1a1a1a; padding:5px; font-size:11px; font-weight:100; }
+  #upperPanel { display:inline-block; padding-bottom:7px; }
+  #lowerPanel { border-top:1px solid darkgreen; padding-top:2px; display:none; justify-content:flex-end; width:822px; height:264px; }
+
+  #sliderPanel { width:40px; float:left; background:orange; }		
+  .slider { transform:rotate(270deg); transform-origin:0% 50%; position:absolute; -webkit-appearance: none; outline:none; cursor:pointer; }
+  .slider::-webkit-slider-thumb { 
+    -webkit-appearance: none;
+    border: 1px solid #000;
+    height: 100%;
+    width: 20px;
+    border-radius: 3px;
+    background: #333;
+  }
+  .slider::-webkit-slider-runnable-track {
+    height: 30px;
+    background: #111;
+    border: 2px solid #222;
+  }
+  .slider::-webkit-slider-thumb:hover { border:1px solid seagreen; } 
+
+  #displayPanel { float:right; }
+  #display { padding:0 40px; margin-bottom:10px; background:#111; border:1px solid #222; }
+  #presetButtons { padding-bottom:0px; display:flex; justify-content:space-between; }
+  #presetButtons > div { display:flex; }
+  #bankButtons { justify-content:flex-end; }
+
+  #lowerPanel > div { border-bottomx:1px solid seagreen; margin-left:35px; }
+  #lowerPanel > div { display:flex; flex-direction:column; padding:5px; padding-bottom:10px; }
+  .buttonrow { display:flex; height:60px; }
+
+  .button { border:1px solid #000; border-radius:5px; cursor:pointer; }
+  .button:hover { border:1px solid seagreen; }
+  .smallEdit { margin-right:4px; background:#222; }
+  .largeEdit { margin-right:4px; background:#333; }
+
+  .label { text-align: center; color:#999; border:1px solid transparent; }
+  .ledButton { margin-right:2px; background:#888; border:1px solid #000; border-radius:5px; cursor:pointer; }
+  .bankButton { background:#333; }
+  .panelButton { position:absolute; background:#222; color:#777; line-height:33px;  text-align:center; font-size:10px; border:1px solid #000; border-radius:5px; cursor:pointer; }
+  .panelButton:hover { border:1px solid seagreen; }
+  .ledButton:hover { background:seagreen; border:1px solid #000; }
+
+  #edit { width:35px; height:15px; line-height:15px; text-align:center; border:1px solid #5a5a5a; border-radius:3px;
+    position:fixed; top:151; left:52; color:#5a5a5a; cursor:pointer; font-size:10px; }
+  #edit:hover { border:1px solid #aaa !important; }
+  #edit.editing { color:seagreen; border:1px solid seagreen; }  
+</style>  

@@ -1,0 +1,100 @@
+<!--
+  AMAME Frontend
+  jariseon 2018-08-11
+-->
+<html>
+<head>
+<script src="amame/frontend.js"></script>
+<script src="amame/socket.js"></script>  
+<script src="amame/layout.js"></script>  
+<script src="widgets/keyboard.js"></script>  
+<script>
+  var frontend,socket;
+  
+  async function main () {    
+    frontend = new AMAME.Frontend();
+    frontend.setModel("fb01");
+  }
+</script>
+</head>
+<body onload="main()">
+  
+<div id="frontend">
+  <div id="topbar">
+    <div class="logo">AMAME</div>
+    <div class="label-control">
+      <label>instrument</label>
+      <select onchange="frontend.setModel(this.value)">
+        <option value="fb01">yamaha FB-01</option>
+        <option value="vfx">ensoniq VFX</option>
+        <option value="vfxsd">ensoniq VFX-SD</option>
+      </select>
+    </div>
+    <div class="label-control">
+      <label>sysex</label>
+      <div class="pushbutton" onclick="frontend.onSysex('load')">LOAD</div>
+      <div class="pushbutton" onclick="frontend.onSysex('save')">SAVE</div>
+      <div class="pushbutton" onclick="frontend.onSysex('clear')">CLEAR</div>
+      <div id="sysex-numbytes">0</div>
+    </div>
+    <div class="icon-toggle" onclick="frontend.toggleKeys()">
+      <svg id="keys-toggle" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1000 1000" enable-background="new 0 0 1000 1000" xml:space="preserve">
+        <metadata> Svg Vector Icons : http://www.onlinewebfonts.com/icon </metadata>
+        <path d="M10,32.3v935.5C10,980,20,990,32.3,990h935.5c12.3,0,22.3-10,22.3-22.3V32.3C990,20,980,10,967.7,10H32.3C20,10,10,20,10,32.3z M276,500h55.7V54.5h79.2V500h55.7v443.6c0,0.6,0.1,1.2,0.2,1.9H275.8c0.1-0.6,0.2-1.2,0.2-1.9L276,500L276,500z M701.7,500v445.5H510.9c0.1-0.6,0.2-1.2,0.2-1.9V500h55.7V54.5H646V500H701.7z M945.5,945.5H746.2V500h55.7V54.5h143.5V945.5z M54.5,54.5h121.3V500h55.7v443.6c0,0.6,0.1,1.2,0.2,1.9H54.5V54.5z"/>
+      </svg>      
+    </div>
+  </div>
+  
+  <div id="front-panel"></div>
+  <div id="keyboard"></div>
+</div>
+  
+<style>
+  * { cursor:default; }
+  body { background:#111; margin:0; user-select:none; -webkit-user-select:none; font-family:sans-serif; }
+  
+  #topbar { position:relative; display:flex; height:40px; border-bottom:2px solid #000; background:#1a1a1a; }
+  .icon-toggle { height:20px; padding:5px; right:8px; top:5px; position:absolute; }
+  #keys-toggle { width:20px; pointer-events:none; }
+  #keys-toggle path { fill:#555; }
+  #keys-toggle.active path { fill:#ccc; }
+
+  .logo { font-size:24px; font-weight:100; margin:0 20px 0 10px; line-height:40px; color:#555; color:lightskyblue; }
+  .label-control { margin-right:15px; color:#777; display:flex; }
+  .label-control label { margin-right:6px; line-height:40px; font-size:12px; }
+  .label-control select { margin-top:10px; color:#eee; border-color:#5a5a5a; height:20px; }
+  .pushbutton { margin-top:11px; margin-right:3px; font-size:10px; color:#aaa;  width:40px; height:17px; line-height:17px; text-align:center; border:1px solid #5a5a5a; border-radius:4px; displayx:inline-block; }
+  #sysex-numbytes { display:none; margin-left:4px; line-height:41px; font-size:12px; }
+  
+  #front-panel { }
+  .layoutview { font-size:8px; }
+ 
+  #keyboard { border-top:4px solid darkgreen; }
+  
+  select,.pushbutton,.icon-toggle { cursor:pointer; }
+  .vcenter { position:relative; top:25%; transform:translateY(-50%); }
+
+  /* restyle standard combobox */
+  select {
+    padding-left:5px;
+    padding-right: 25px;
+    line-height: 10px;
+    background-image: url("data:image/svg+xml,\
+      <svg version='1.1' xmlns='http://www.w3.org/2000/svg' width='12px'\
+           height='12px' transform='translate(0,-1)' viewBox='0 0 1200 1000' fill='rgb(0,0,0)'>\
+        <path fill='rgb(100,100,100)' d='M1100 411l-198 -199l-353 353l-353 -353l-197 199l551 551z'/>\
+      </svg>");
+    background-repeat: no-repeat;
+    background-position: calc(100% - 4px) calc(50% - 1px);
+    -webkit-appearance: none;
+    appearance: none;
+    border:1px solid #aaa;
+    border-radius:4px;
+    font-size:11px;
+    font-weight:100;
+    background-color:#1a1a1a;
+    outline:none;
+  } 
+</style>  
+</body>
+</html>
