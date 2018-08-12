@@ -393,7 +393,10 @@ enum ioport_type
 	IPT_SPECIAL, // uninterpreted characters
 	IPT_CUSTOM, // handled by custom code
 	IPT_OUTPUT,
-
+	
+	// AMAME
+	IPT_SCALAR,
+	
 	IPT_COUNT
 };
 DECLARE_ENUM_INCDEC_OPERATORS(ioport_type)
@@ -1103,6 +1106,9 @@ public:
 	};
 	void get_user_settings(user_settings &settings);
 	void set_user_settings(const user_settings &settings);
+	
+	// AMAME
+	ioport_value scalar() { return m_scalar; }
 
 private:
 	void expand_diplocation(const char *location, std::string &errorbuf);
@@ -1150,6 +1156,11 @@ private:
 	// data relevant to other specific types
 	u8                          m_way;              // digital joystick 2/4/8-way descriptions
 	char32_t                    m_chars[1 << (UCHAR_SHIFT_END - UCHAR_SHIFT_BEGIN + 1)][2];      // unicode key data
+
+	// AMAME
+	// digital port with range (similar to analog port)
+	// makes it easier to map a boatload of buttons to INPUT_PORT
+	ioport_value m_scalar;
 };
 
 

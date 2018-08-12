@@ -372,7 +372,9 @@ int running_machine::run(bool quiet)
 		sound().ui_mute(true);
 		if (options().nvram_save())
 			nvram_save();
-		m_configuration->save_settings();
+		
+		// AMAME : crashes when switching machine, outcommenting for now
+		// m_configuration->save_settings();
 	}
 	catch (emu_fatalerror &fatal)
 	{

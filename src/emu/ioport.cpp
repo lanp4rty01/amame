@@ -638,6 +638,12 @@ ioport_field::ioport_field(ioport_port &port, ioport_type type, ioport_value def
 
 void ioport_field::set_value(ioport_value value)
 {
+	// AMAME
+	if (m_type == IPT_SCALAR) {
+		m_scalar = value;
+		value = m_digital_value ? 0 : 1;	// force update
+	}
+
 	m_digital_value = value != 0;
 }
 
@@ -3207,6 +3213,11 @@ void dynamic_field::write(ioport_value newval)
 	// skip if not enabled
 	if (!m_field.enabled())
 		return;
+
+	// AMAME
+	if (m_field.type() == IPT_SCALAR)
+		newval = m_field.scalar();
+	else
 
 	// if the bits have changed, call the handler
 	newval = (newval & m_field.mask()) >> m_shift;
