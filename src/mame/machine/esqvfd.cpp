@@ -157,7 +157,7 @@ void esqvfd_device::update_display()
 
 				// force bottom bar on all underlined chars
 				if (m_attrs[row][col] & AT_UNDERLINE)
-					segdata |= 0x0008;
+					segdata |= 0x8000; // AMAME : orig 0x0008;
 
 				m_vfds->set((row * m_cols) + col, segdata);
 

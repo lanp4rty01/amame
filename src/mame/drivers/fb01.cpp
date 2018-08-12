@@ -30,7 +30,8 @@ public:
 		: driver_device(mconfig, type, tag)
 		, m_maincpu(*this, "maincpu")
 		, m_upd71051(*this, "upd71051")
-		, m_midi_thru(*this, "mdthru")
+		// AMAME : midithru disabled midiout (cmdline parsing error: -midiout not found), outcommenting for now
+		// m_midi_thru(*this, "mdthru")
 		, m_ym2164_irq(CLEAR_LINE)
 		, m_upd71051_txrdy(CLEAR_LINE)
 		, m_upd71051_rxrdy(CLEAR_LINE)
@@ -57,7 +58,7 @@ private:
 
 	required_device<z80_device> m_maincpu;
 	required_device<i8251_device> m_upd71051;
-	required_device<midi_port_device> m_midi_thru;
+	// required_device<midi_port_device> m_midi_thru;
 	int m_ym2164_irq;
 	int m_upd71051_txrdy;
 	int m_upd71051_rxrdy;
@@ -131,7 +132,7 @@ WRITE_LINE_MEMBER(fb01_state::write_usart_clock)
 
 WRITE_LINE_MEMBER(fb01_state::midi_in)
 {
-	m_midi_thru->write_txd(state);
+	// m_midi_thru->write_txd(state);
 	m_upd71051->write_rxd(state);
 }
 
@@ -216,7 +217,7 @@ MACHINE_CONFIG_START(fb01_state::fb01)
 
 	MCFG_MIDI_PORT_ADD("mdout", midiout_slot, "midiout")
 
-	MCFG_MIDI_PORT_ADD("mdthru", midiout_slot, "midiout")
+	// MCFG_MIDI_PORT_ADD("mdthru", midiout_slot, "midiout")
 
 	SPEAKER(config, "lspeaker").front_left();
 	SPEAKER(config, "rspeaker").front_right();

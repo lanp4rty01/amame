@@ -505,6 +505,9 @@ READ8_MEMBER(hd44780_device::control_read)
 
 WRITE8_MEMBER(hd44780_device::data_write)
 {
+	// AMAME : forward to webgui
+	machine().output().set_value(tag(), (m_ac << 16) | data);
+
 	if (m_busy_flag)
 	{
 		logerror("HD44780: Ignoring data write %02x due of busy flag\n", data);

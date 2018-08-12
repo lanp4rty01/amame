@@ -196,6 +196,11 @@ public:
 	IRQ_CALLBACK_MEMBER(maincpu_irq_acknowledge_callback);
 	DECLARE_WRITE_LINE_MEMBER(esq5505_otis_irq);
 
+	// AMAME
+	DECLARE_INPUT_CHANGED_MEMBER(onbutton);
+	DECLARE_INPUT_CHANGED_MEMBER(onsliderA);
+	DECLARE_INPUT_CHANGED_MEMBER(onsliderB);
+
 private:
 	required_device<m68000_device> m_maincpu;
 	required_device<mc68681_device> m_duart;
@@ -559,6 +564,24 @@ WRITE8_MEMBER(esq5505_state::dma_error)
 	update_irq_to_maincpu();
 }
 
+// AMAME -->
+INPUT_CHANGED_MEMBER(esq5505_state::onbutton)
+{
+	m_panel->xmit_char((uint8_t)field.scalar());
+	m_panel->xmit_char(0);
+}
+INPUT_CHANGED_MEMBER(esq5505_state::onsliderA)
+{
+	uint16_t value = (uint16_t)field.scalar();
+	m_panel->set_analog_value(3, value << 6);
+}
+INPUT_CHANGED_MEMBER(esq5505_state::onsliderB)
+{
+	uint16_t value = (uint16_t)field.scalar();
+	m_panel->set_analog_value(5, value << 6);
+}
+// <-- AMAME
+
 #if KEYBOARD_HACK
 INPUT_CHANGED_MEMBER(esq5505_state::key_stroke)
 {
@@ -765,6 +788,12 @@ void esq5505_state::sq1(machine_config &config)
 }
 
 static INPUT_PORTS_START( vfx )
+	// AMAME
+	PORT_START("WEBGUI")
+	PORT_BIT(0x01, IP_ACTIVE_HIGH, IPT_SCALAR) PORT_NAME("button")  PORT_CHANGED_MEMBER(DEVICE_SELF, esq5505_state, onbutton, 0)
+	PORT_BIT(0x02, IP_ACTIVE_HIGH, IPT_SCALAR) PORT_NAME("sliderA") PORT_CHANGED_MEMBER(DEVICE_SELF, esq5505_state, onsliderA, 0)
+	PORT_BIT(0x04, IP_ACTIVE_HIGH, IPT_SCALAR) PORT_NAME("sliderB") PORT_CHANGED_MEMBER(DEVICE_SELF, esq5505_state, onsliderB, 0)
+
 #if KEYBOARD_HACK
 	PORT_START("KEY0")
 	PORT_BIT(0x0001, IP_ACTIVE_HIGH, IPT_KEYBOARD) PORT_CODE(KEYCODE_A) PORT_CHAR('a') PORT_CHAR('A') PORT_CHANGED_MEMBER(DEVICE_SELF, esq5505_state, key_stroke, 0x80)
